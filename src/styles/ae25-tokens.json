@@ -1,0 +1,77 @@
+{
+  "global": {
+    "xl-type": {
+      "value": "180px",
+      "type": "sizing"
+    },
+    "lg-type": {
+      "value": "48px",
+      "type": "sizing"
+    },
+    "md-type": {
+      "value": "24px",
+      "type": "sizing"
+    },
+    "sm-type": {
+      "value": "12px",
+      "type": "sizing"
+    },
+    "xs-type": {
+      "value": "8px",
+      "type": "sizing"
+    },
+    "gray": {
+      "value": "#ABA5A3",
+      "type": "color"
+    },
+    "light-gray": {
+      "value": "#DCD8D9",
+      "type": "color"
+    },
+    "volt": {
+      "value": "#CBFF22",
+      "type": "color"
+    },
+    "black": {
+      "value": "#000000",
+      "type": "color"
+    },
+    "white": {
+      "value": "#ffffff",
+      "type": "color"
+    },
+    "sm-sp": {
+      "value": "4px",
+      "type": "spacing"
+    },
+    "md-sp": {
+      "value": "8px",
+      "type": "spacing"
+    },
+    "lg-sp": {
+      "value": "16px",
+      "type": "spacing"
+    },
+    "xl-sp": {
+      "value": "32px",
+      "type": "spacing"
+    },
+    "xs-sp": {
+      "value": "2px",
+      "type": "spacing"
+    },
+    "Sans": {
+      "value": {
+        "fontFamily": "Instrument Sans",
+        "fontWeight": "400"
+      },
+      "type": "typography"
+    },
+    "Serif": {
+      "value": {
+        "fontFamily": "Instrument Serif"
+      },
+      "type": "typography"
+    }
+  }
+}

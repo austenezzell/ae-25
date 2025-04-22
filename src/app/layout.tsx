@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Instrument_Sans, Instrument_Serif } from 'next/font/google';
+import Link from 'next/link';
+import Footer from './components/Footer';
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const instrumentSans = Instrument_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: ['400'],
+  display: 'swap',
+  variable: '--font-instrument-serif',
 });
 
 export const metadata: Metadata = {
@@ -24,10 +29,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${instrumentSans.className} ${instrumentSerif.variable}`}>
+        <div className="min-h-screen flex flex-col bg-light-gray">
+          {/* Header */}
+          <header className="py-6 text-center h-[200px]">
+            <Link href="/">
+              <h1 className="text-sm">The design practice<br />of Austen Ezzell</h1>
+            </Link>
+          </header>
+
+          {/* Main Content */}
+          <main className="flex-1 flex items-center justify-center">
+            {children}
+          </main>
+
+          <Footer />
+        </div>
       </body>
     </html>
   );
