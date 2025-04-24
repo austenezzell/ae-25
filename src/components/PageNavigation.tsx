@@ -1,0 +1,71 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
+import { createPortal } from 'react-dom';
+
+interface PageNavigationProps {
+  title: string;
+  onClose?: () => void;
+  showCloseButton?: boolean;
+  children?: React.ReactNode;
+  className?: string;
+  width?: string;
+}
+
+export default function PageNavigation({ 
+  title, 
+  onClose, 
+  showCloseButton = true,
+  children,
+  className = '',
+  width = 'max-w-[500px]'
+}: PageNavigationProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  
+  useEffect(() => {
+    // Only render the portal after the component has mounted
+    setMounted(true);
+    
+    // Trigger the animation after a small delay
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleClose = () => {
+    if (onClose) {
+      // Start the closing animation
+      setIsClosing(true);
+      
+      // Wait for the animation to complete before calling onClose
+      setTimeout(() => {
+        onClose();
+      }, 500); // Match the duration of the animation
+    }
+  };
+
+  const navigationContent = (
+    <div className={`page-navigation fixed top-4 left-1/2 -translate-x-1/2 w-full ${width} bg-[rgba(0,0,0,0.6)] backdrop-blur-lg p-5 rounded-xl flex items-center transition-all duration-500 ease-out z-[9999] ${isClosing ? '-translate-y-full opacity-0' : isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'} ${className}`}>
+      <span className="text-white font-serif italic text-sm sm:text-base">{title}</span>
+      <div className="flex-1 flex justify-center mx-4">
+        {children}
+      </div>
+      {showCloseButton && onClose && (
+        <button
+          onClick={handleClose}
+          className="text-white hover:text-gray-300 transition-colors cursor-pointer"
+          aria-label="Close"
+        >
+          <X size={18} className="sm:w-5 sm:h-5" />
+        </button>
+      )}
+    </div>
+  );
+
+  // Use portal if mounted, otherwise return null
+  return mounted ? createPortal(navigationContent, document.body) : null;
+} 

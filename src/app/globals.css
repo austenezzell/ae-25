@@ -5,7 +5,25 @@
 :root {
   --foreground: #000000;
   --background: #ABA5A3;
+  --brand: #CBFF22;
 }
+
+.light-gray-color {
+  color: #DCD8D9;
+}
+
+.bg-light-gray-color {
+  background-color: #DCD8D9;
+}
+
+.brand-color {
+  color: var(--brand);
+}
+
+.bg-brand-color {
+  background-color: var(--brand);
+}
+
 
 body {
   background-color: var(--background);

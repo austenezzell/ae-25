@@ -50,7 +50,7 @@ export default function Footer() {
             onClick={handleNextQuote}
             className="opacity-65 font-serif italic hover:text-gray transition-colors block w-full opacity-65 hover:opacity-100"
           >
-            (view another quote)
+            (view another)
           </button>
         </div>
 

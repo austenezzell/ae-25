@@ -15,6 +15,15 @@ const config: Config = {
         'black': '#000000',
         'white': '#ffffff',
       },
+      keyframes: {
+        'blur-in': {
+          '0%': { backdropFilter: 'blur(0px)' },
+          '100%': { backdropFilter: 'blur(6px)' }
+        }
+      },
+      animation: {
+        'blur-in': 'blur-in 0.5s ease-out forwards'
+      },
       spacing: {
         'xs-sp': '2px',
         'sm-sp': '4px',

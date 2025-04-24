@@ -2,90 +2,205 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import PageNavigation from './PageNavigation';
 
 interface DialpadOverlayProps {
   onClose: () => void;
 }
 
 export default function DialpadOverlay({ onClose }: DialpadOverlayProps) {
+  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [lastChangeTime, setLastChangeTime] = useState(Date.now());
   
+  const handleClose = () => {
+    onClose();
+    router.push('/');
+  };
+
   const slides = [
     {
-      type: 'image',
-      src: '/billboard.png',
-      alt: 'Dialpad Billboard - Less hold, more happy',
+      type: 'video',
+      src: '/dialpad/1.mp4',
+      alt: 'Dialpad Video',
       date: 'June 14, 2014'
     },
     {
       type: 'image',
-      src: '/soccer.png',
-      alt: 'Dialpad Billboard - Future of work',
-      date: 'August 21, 2014'
+      src: '/dialpad/2.jpg',
+      alt: 'Dialpad Billboard',
+      date: 'July 1, 2014'
     },
     {
       type: 'image',
-      src: '/billboard.png',
-      alt: 'Dialpad Billboard - AI-powered communications',
-      date: 'October 5, 2014'
+      src: '/dialpad/3.jpg',
+      alt: 'Dialpad Billboard',
+      date: 'July 15, 2014'
+    },
+    {
+      type: 'image',
+      src: '/dialpad/4.jpg',
+      alt: 'Dialpad Billboard',
+      date: 'August 1, 2014'
+    },
+    {
+      type: 'image',
+      src: '/dialpad/5.jpg',
+      alt: 'Dialpad Billboard',
+      date: 'August 15, 2014'
+    },
+    {
+      type: 'image',
+      src: '/dialpad/6.jpg',
+      alt: 'Dialpad Billboard',
+      date: 'September 1, 2014'
+    },
+    {
+      type: 'image',
+      src: '/dialpad/7.jpg',
+      alt: 'Dialpad Billboard',
+      date: 'September 15, 2014'
+    },
+    {
+      type: 'image',
+      src: '/dialpad/8.jpg',
+      alt: 'Dialpad Billboard',
+      date: 'October 1, 2014'
+    },
+    {
+      type: 'image',
+      src: '/dialpad/9.jpg',
+      alt: 'Dialpad Billboard',
+      date: 'October 15, 2014'
+    },
+    {
+      type: 'image',
+      src: '/dialpad/10.jpg',
+      alt: 'Dialpad Billboard',
+      date: 'November 1, 2014'
+    },
+    {
+      type: 'image',
+      src: '/dialpad/11.jpg',
+      alt: 'Dialpad Billboard',
+      date: 'November 15, 2014'
+    },
+    {
+      type: 'image',
+      src: '/dialpad/12.jpg',
+      alt: 'Dialpad Billboard',
+      date: 'December 1, 2014'
+    },
+    {
+      type: 'image',
+      src: '/dialpad/13.jpg',
+      alt: 'Dialpad Billboard',
+      date: 'December 15, 2014'
+    },
+    {
+      type: 'image',
+      src: '/dialpad/14.jpg',
+      alt: 'Dialpad Billboard',
+      date: 'January 1, 2015'
     }
   ];
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
-    }, 5000); // Rotate every 5 seconds
+    if (isPaused) return;
 
-    return () => clearInterval(timer); // Cleanup on unmount
+    const timer = setInterval(() => {
+      const now = Date.now();
+      if (now - lastChangeTime >= 4000) {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+        setLastChangeTime(now);
+      }
+    }, 100); // Check more frequently
+
+    return () => clearInterval(timer);
+  }, [isPaused, lastChangeTime]);
+
+  // Add keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        setCurrentIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
+        setLastChangeTime(Date.now());
+      } else if (e.key === 'ArrowRight') {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+        setLastChangeTime(Date.now());
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center">
+    <div className="dialpad-overlay fixed inset-0 bg-[rgba(220,216,217,.5)] backdrop-blur-sm z-50 flex flex-col items-center justify-center">
       {/* Header */}
-      <div className="absolute top-0 left-0 right-0 bg-[#424242] p-2 flex items-center">
-        <span className="text-white font-serif italic ml-4">Dialpad</span>
-        <div className="flex-1 flex justify-center mx-4">
-          <div className="flex gap-1">
-            {slides.map((_, i) => (
-              <div 
-                key={i} 
-                className={`h-[2px] w-12 transition-colors duration-300 ${
-                  i === currentIndex ? 'bg-yellow-400' : 'bg-white/30'
-                }`} 
-              />
-            ))}
-          </div>
+      <PageNavigation title="Dialpad" onClose={handleClose}>
+        <div className="flex gap-1 w-full max-w-[300px]">
+          {slides.map((_, i) => (
+            <button 
+              key={i} 
+              onClick={() => {
+                setCurrentIndex(i);
+                setLastChangeTime(Date.now());
+              }}
+              className={`h-[4px] flex-1 transition-colors duration-300 rounded-md ${
+                i === currentIndex ? 'bg-brand-color' : 'bg-white/30 hover:bg-white/50'
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
         </div>
-        <button
-          onClick={onClose}
-          className="text-white hover:text-gray-300 transition-colors mr-4"
-          aria-label="Close overlay"
-        >
-          <X size={20} />
-        </button>
-      </div>
+      </PageNavigation>
 
       {/* Main Content */}
-      <div className="relative w-full max-w-4xl aspect-[16/9]">
+      <div 
+        className="relative w-full max-w-4xl aspect-[16/9] cursor-pointer"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onClick={() => {
+          setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+          setLastChangeTime(Date.now());
+        }}
+      >
         {slides.map((slide, index) => (
-          <Image
+          <div
             key={index}
-            src={slide.src}
-            alt={slide.alt}
-            fill
-            className={`object-contain transition-opacity duration-500 ${
+            className={`absolute inset-0 transition-opacity duration-0 ${
               index === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}
-            priority={index === currentIndex}
-          />
+          >
+            {slide.type === 'image' ? (
+              <Image
+                src={slide.src}
+                alt={slide.alt}
+                fill
+                className="object-contain"
+                priority={index === currentIndex}
+              />
+            ) : (
+              <video
+                key={`${slide.src}-${currentIndex}`}
+                src={slide.src}
+                className="w-full h-full object-contain"
+                autoPlay
+                muted
+                playsInline
+              />
+            )}
+          </div>
         ))}
       </div>
 
       {/* Footer */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 flex justify-between items-center">
-        <span className="bg-[#424242] text-white px-3 py-1 rounded-full text-sm">Dialpad</span>
-        <span className="bg-white/10 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">
+      <div className="absolute bottom-0 left-0 right-0 p-4 flex items-center">
+        <span className="bg-[rgba(0,0,0,0.6)] text-white px-4 py-3 rounded-lg text-sm">Dialpad</span>
+        <span className="text-black border-[2px] border-[rgba(0,0,0,0.6)] px-4 py-3 rounded-full text-sm">
           {slides[currentIndex].date}
         </span>
       </div>
