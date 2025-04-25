@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Sans, Instrument_Serif } from 'next/font/google';
 import Link from 'next/link';
-import Footer from './components/Footer';
+import Footer from '../components/Footer';
 import "./globals.css";
 
 const instrumentSans = Instrument_Sans({

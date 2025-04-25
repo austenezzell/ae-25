@@ -14,10 +14,14 @@ export default function DialpadOverlay({ onClose }: DialpadOverlayProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [lastChangeTime, setLastChangeTime] = useState(Date.now());
+  const [isClosing, setIsClosing] = useState(false);
   
   const handleClose = () => {
-    onClose();
-    router.push('/');
+    setIsClosing(true);
+    setTimeout(() => {
+      onClose();
+      router.push('/');
+    }, 500); // Match the duration of the animation
   };
 
   const slides = [
@@ -138,32 +142,43 @@ export default function DialpadOverlay({ onClose }: DialpadOverlayProps) {
   }, []);
 
   return (
-    <div className="dialpad-overlay fixed inset-0 bg-[rgba(220,216,217,.5)] backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+    <div 
+      className={`dialpad-overlay fixed inset-0 bg-[rgba(220,216,217,.5)] backdrop-blur-sm z-50 flex flex-col items-center justify-center transition-opacity duration-500 ${
+        isClosing ? 'opacity-0' : 'opacity-100'
+      }`}
+      onClick={handleClose}
+    >
       {/* Header */}
-      <PageNavigation title="Dialpad" onClose={handleClose}>
-        <div className="flex gap-1 w-full max-w-[300px]">
-          {slides.map((_, i) => (
-            <button 
-              key={i} 
-              onClick={() => {
-                setCurrentIndex(i);
-                setLastChangeTime(Date.now());
-              }}
-              className={`h-[4px] flex-1 transition-colors duration-300 rounded-md ${
-                i === currentIndex ? 'bg-brand-color' : 'bg-white/30 hover:bg-white/50'
-              }`}
-              aria-label={`Go to slide ${i + 1}`}
-            />
-          ))}
-        </div>
-      </PageNavigation>
+      <div onClick={e => e.stopPropagation()}>
+        <PageNavigation title="Dialpad" onClose={handleClose}>
+          <div className="flex gap-1 w-full max-w-[300px]">
+            {slides.map((_, i) => (
+              <button 
+                key={i} 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCurrentIndex(i);
+                  setLastChangeTime(Date.now());
+                }}
+                className={`h-[4px] flex-1 transition-colors duration-300 rounded-md ${
+                  i === currentIndex ? 'bg-brand-color' : 'bg-white/30 hover:bg-white/50'
+                }`}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
+        </PageNavigation>
+      </div>
 
       {/* Main Content */}
       <div 
-        className="relative w-full max-w-4xl aspect-[16/9] cursor-pointer"
+        className={`relative w-full max-w-4xl aspect-[16/9] cursor-pointer transition-transform duration-500 ${
+          isClosing ? '-translate-y-full' : 'translate-y-0'
+        }`}
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
           setLastChangeTime(Date.now());
         }}
@@ -198,7 +213,12 @@ export default function DialpadOverlay({ onClose }: DialpadOverlayProps) {
       </div>
 
       {/* Footer */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 flex items-center">
+      <div 
+        className={`absolute bottom-0 left-0 right-0 p-4 flex items-center transition-transform duration-500 ${
+          isClosing ? 'translate-y-full' : 'translate-y-0'
+        }`}
+        onClick={e => e.stopPropagation()}
+      >
         <span className="bg-[rgba(0,0,0,0.6)] text-white px-4 py-3 rounded-lg text-sm">Dialpad</span>
         <span className="text-black border-[2px] border-[rgba(0,0,0,0.6)] px-4 py-3 rounded-full text-sm">
           {slides[currentIndex].date}
