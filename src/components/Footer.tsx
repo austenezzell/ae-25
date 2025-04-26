@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import PortfoliosModal from './PortfoliosModal';
+import { useModal } from '@/context/ModalContext';
 
 const quotes = [
   {
@@ -34,7 +35,7 @@ const quotes = [
 
 export default function Footer() {
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
-  const [isPortfoliosModalOpen, setIsPortfoliosModalOpen] = useState(false);
+  const { setIsPortfoliosModalOpen } = useModal();
 
   const handleNextQuote = () => {
     setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
@@ -100,10 +101,7 @@ export default function Footer() {
         </div>
       </footer>
 
-      <PortfoliosModal
-        isOpen={isPortfoliosModalOpen}
-        onClose={() => setIsPortfoliosModalOpen(false)}
-      />
+      <PortfoliosModal />
     </>
   );
 } 

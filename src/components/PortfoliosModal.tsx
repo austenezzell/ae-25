@@ -24,15 +24,45 @@ export default function PortfoliosModal() {
   const [mounted, setMounted] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
+  // Set mounted state on client-side
   useEffect(() => {
-    if (isPortfoliosModalOpen) {
-      setMounted(true);
+    setMounted(true);
+  }, []);
+
+  // Handle page navigation opacity when modal is open/closed
+  useEffect(() => {
+    if (mounted) {
+      const pageNavigations = document.querySelectorAll('.page-navigation');
+      
+      if (isPortfoliosModalOpen) {
+        // Hide page navigation when modal is open
+        pageNavigations.forEach(nav => {
+          (nav as HTMLElement).style.opacity = '0';
+        });
+      } else {
+        // Show page navigation when modal is closed
+        pageNavigations.forEach(nav => {
+          (nav as HTMLElement).style.opacity = '';
+        });
+      }
+      
+      // Cleanup function
+      return () => {
+        pageNavigations.forEach(nav => {
+          (nav as HTMLElement).style.opacity = '';
+        });
+      };
+    }
+  }, [isPortfoliosModalOpen, mounted]);
+
+  useEffect(() => {
+    if (isPortfoliosModalOpen && mounted) {
       const timer = setTimeout(() => {
         setIsVisible(true);
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [isPortfoliosModalOpen]);
+  }, [isPortfoliosModalOpen, mounted]);
 
   const handleClose = () => {
     setIsClosing(true);
@@ -40,7 +70,6 @@ export default function PortfoliosModal() {
       setIsPortfoliosModalOpen(false);
       setIsClosing(false);
       setIsVisible(false);
-      setMounted(false);
     }, 500);
   };
 
@@ -48,6 +77,9 @@ export default function PortfoliosModal() {
     // Prevent clicks inside the modal from closing it
     e.stopPropagation();
   };
+
+  // Don't render anything on the server
+  if (!mounted) return null;
 
   const modalContent = (
     <div className="fixed inset-0 z-[9999]" onClick={handleClose}>
@@ -107,5 +139,5 @@ export default function PortfoliosModal() {
     </div>
   );
 
-  return mounted && isPortfoliosModalOpen ? createPortal(modalContent, document.body) : null;
+  return isPortfoliosModalOpen ? createPortal(modalContent, document.body) : null;
 } 
