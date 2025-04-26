@@ -4,11 +4,7 @@ import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
-
-interface PortfoliosModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { useModal } from '@/context/ModalContext';
 
 const portfolios = [
   { year: '13', link: '#' },
@@ -22,25 +18,26 @@ const portfolios = [
   { year: '23', link: '#' },
 ];
 
-export default function PortfoliosModal({ isOpen, onClose }: PortfoliosModalProps) {
+export default function PortfoliosModal() {
+  const { isPortfoliosModalOpen, setIsPortfoliosModalOpen } = useModal();
   const [isVisible, setIsVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isPortfoliosModalOpen) {
       setMounted(true);
       const timer = setTimeout(() => {
         setIsVisible(true);
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [isOpen]);
+  }, [isPortfoliosModalOpen]);
 
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => {
-      onClose();
+      setIsPortfoliosModalOpen(false);
       setIsClosing(false);
       setIsVisible(false);
       setMounted(false);
@@ -56,7 +53,7 @@ export default function PortfoliosModal({ isOpen, onClose }: PortfoliosModalProp
     <div className="fixed inset-0 z-[9999]" onClick={handleClose}>
       {/* Background overlay */}
       <div 
-        className={`fixed inset-0  bg-[rgba(220,216,217,.5)] backdrop-blur-sm transition-opacity duration-500 ${
+        className={`fixed inset-0 transition-opacity duration-500 ${
           isClosing ? 'opacity-0' : isVisible ? 'opacity-90' : 'opacity-0'
         }`} 
         aria-hidden="true"
@@ -72,7 +69,7 @@ export default function PortfoliosModal({ isOpen, onClose }: PortfoliosModalProp
             '-translate-y-full opacity-0'
           }`}
         >
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex justify-between items-center mb-6">
             <h2 className="text-white font-serif italic text-sm sm:text-base">Portfolios Past</h2>
             <button
               onClick={handleClose}
@@ -110,5 +107,5 @@ export default function PortfoliosModal({ isOpen, onClose }: PortfoliosModalProp
     </div>
   );
 
-  return mounted && isOpen ? createPortal(modalContent, document.body) : null;
+  return mounted && isPortfoliosModalOpen ? createPortal(modalContent, document.body) : null;
 } 

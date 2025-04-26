@@ -1,10 +1,29 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import PageNavigation from '@/components/PageNavigation';
 
 export default function DesignPage() {
   const router = useRouter();
+
+  useEffect(() => {
+    // Find the main container and change its background color
+    const mainContainer = document.querySelector('.main-container');
+    if (mainContainer) {
+      mainContainer.classList.remove('bg-light-gray');
+      mainContainer.classList.add('bg-[#FFA722]');
+
+    }
+
+    // Cleanup function to restore the original background color when leaving the page
+    return () => {
+      if (mainContainer) {
+        mainContainer.classList.remove('bg-[#FFA722]');
+        mainContainer.classList.add('bg-light-gray');
+      }
+    };
+  }, []);
 
   const handleClose = () => {
     router.push('/');

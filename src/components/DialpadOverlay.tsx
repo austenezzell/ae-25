@@ -15,6 +15,11 @@ export default function DialpadOverlay({ onClose }: DialpadOverlayProps) {
   const [isPaused, setIsPaused] = useState(false);
   const [lastChangeTime, setLastChangeTime] = useState(Date.now());
   const [isClosing, setIsClosing] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   
   const handleClose = () => {
     setIsClosing(true);
@@ -134,6 +139,8 @@ export default function DialpadOverlay({ onClose }: DialpadOverlayProps) {
       } else if (e.key === 'ArrowRight') {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
         setLastChangeTime(Date.now());
+      } else if (e.key === 'Escape') {
+        handleClose();
       }
     };
 
@@ -141,9 +148,11 @@ export default function DialpadOverlay({ onClose }: DialpadOverlayProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  if (!mounted) return null;
+
   return (
     <div 
-      className={`dialpad-overlay fixed inset-0 bg-[rgba(220,216,217,.5)] backdrop-blur-sm z-50 flex flex-col items-center justify-center transition-opacity duration-500 ${
+      className={`dialpad-overlay fixed inset-0 backdrop-blur-sm z-50 flex flex-col items-center justify-center transition-opacity duration-500 ${
         isClosing ? 'opacity-0' : 'opacity-100'
       }`}
       onClick={handleClose}

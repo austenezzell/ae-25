@@ -87,7 +87,7 @@ export default function Footer() {
 
           {/* Quote Section */}
           <div className="w-full md:w-[400px] text-center order-3 md:order-1 self-end">
-            <p className="text-sm text-gray-600 mb-2">
+            <p className="text-sm mb-2 opacity-65">
               &ldquo;{quotes[currentQuoteIndex].text}&rdquo;<span className='nowrap'> — {quotes[currentQuoteIndex].author}</span>
             </p>
             <button 
