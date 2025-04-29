@@ -16,6 +16,18 @@ const quotes = [
     author: "Pablo Picasso"
   },
   {
+    text: "Be curious, not judgmental",
+    author: "Ted Lasso"
+  },
+  {
+    text: "Fall in love with the problem, not the solution",
+    author: "Uri Levine"
+  },
+  {
+    text: "You can observe a lot just by watching",
+    author: "Yogi Berra"
+  },
+  {
     text: "Never delegate understanding",
     author: "Charles Emes"
   },

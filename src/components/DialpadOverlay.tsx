@@ -12,7 +12,6 @@ interface DialpadOverlayProps {
 export default function DialpadOverlay({ onClose }: DialpadOverlayProps) {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const [lastChangeTime, setLastChangeTime] = useState(Date.now());
   const [isClosing, setIsClosing] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -117,8 +116,6 @@ export default function DialpadOverlay({ onClose }: DialpadOverlayProps) {
   ];
 
   useEffect(() => {
-    if (isPaused) return;
-
     const timer = setInterval(() => {
       const now = Date.now();
       if (now - lastChangeTime >= 4000) {
@@ -128,7 +125,7 @@ export default function DialpadOverlay({ onClose }: DialpadOverlayProps) {
     }, 100); // Check more frequently
 
     return () => clearInterval(timer);
-  }, [isPaused, lastChangeTime]);
+  }, [lastChangeTime]);
 
   // Add keyboard navigation
   useEffect(() => {
@@ -184,8 +181,6 @@ export default function DialpadOverlay({ onClose }: DialpadOverlayProps) {
         className={`relative w-full max-w-4xl aspect-[16/9] cursor-pointer transition-transform duration-500 ${
           isClosing ? '-translate-y-full' : 'translate-y-0'
         }`}
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
         onClick={(e) => {
           e.stopPropagation();
           setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
