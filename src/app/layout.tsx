@@ -3,6 +3,7 @@ import { Instrument_Sans, Instrument_Serif } from 'next/font/google';
 import Link from 'next/link';
 import { ModalProvider } from '@/context/ModalContext';
 import ClientFooter from '../components/ClientFooter';
+import TitleOverlay from '../components/TitleOverlay';
 import './globals.css';
 
 const instrumentSans = Instrument_Sans({
@@ -48,6 +49,7 @@ export default function RootLayout({
             {/* Footer container */}
             <div id="footer-root" />
             <ClientFooter />
+            <TitleOverlay />
           </div>
         </ModalProvider>
       </body>

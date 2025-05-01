@@ -131,7 +131,8 @@ export default function Slideshow({
     // Wait for the transition to complete before closing
     setTimeout(() => {
       onClose();
-      router.push('/');
+      // Use replace instead of push to prevent adding to history
+      router.replace('/');
     }, 500); // Match the duration of the transition
   };
 
