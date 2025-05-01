@@ -10,6 +10,13 @@ interface ContentPhotoblogProps {
 export default function ContentPhotoblog({ onClose }: ContentPhotoblogProps) {
   const slides: MediaItem[] = [
     {
+      type: 'video' as const,
+      src: '/photoblog/portugal.mp4',
+      alt: 'Dialpad Video 1',
+      date: '2024',
+      backgroundColor: '#000000'
+    },
+    {
       type: 'image' as const,
       src: '/photoblog/1.jpg',
       alt: 'Photoblog Image 1',

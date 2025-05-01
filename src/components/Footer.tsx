@@ -74,7 +74,7 @@ export default function Footer() {
           </div>
 
           {/* Navigation Columns Container */}
-          <div className="flex flex-row justify-center gap-8 w-full md:w-auto order-2 md:order-3 self-end">
+          <div className="flex flex-row justify-center gap-2 md:gap-8 w-full md:w-auto order-2 md:order-3 self-center max-w-[350px] mx-auto">
             {/* First Nav Column */}
             <div className="footer-nav w-1/2 md:w-auto text-center">
               <ul className="flex flex-col font-serif italic">
@@ -101,13 +101,13 @@ export default function Footer() {
           </div>
 
           {/* Quote Section */}
-          <div className="w-full md:w-[400px] text-center order-3 md:order-1 self-end px-8 md:px-0">
+          <div className="w-full max-w-[400px] md:w-[400px] text-center order-3 md:order-1 self-center mx-auto px-8 md:px-0">
             <p className="text-sm mb-2 opacity-65">
               &ldquo;{quotes[currentQuoteIndex].text}&rdquo;<span className='nowrap'> — {quotes[currentQuoteIndex].author}</span>
             </p>
             <button 
               onClick={handleNextQuote}
-              className="opacity-65 font-serif italic hover:text-gray transition-colors block w-full opacity-65 hover:opacity-100"
+              className="opacity-65 font-serif italic hover:text-gray transition-colors opacity-65 hover:opacity-100"
             >
               (view another)
             </button>

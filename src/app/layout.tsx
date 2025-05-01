@@ -36,8 +36,8 @@ export default function RootLayout({
           <div className="main-container min-h-screen flex flex-col bg-light-gray">
             {/* Header */}
             <header className="py-6 text-center md:h-[200px]">
-              <Link href="/">
-                <h1 className="text-sm">The design practice<br />of Austen Ezzell</h1>
+              <Link href="/" className="text-sm inline-block">
+                The design practice<br />of Austen Ezzell
               </Link>
             </header>
 

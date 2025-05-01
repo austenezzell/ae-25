@@ -41,7 +41,7 @@ export default function TitleOverlay() {
         isClosing ? 'opacity-0' : 'opacity-100'
       }`}
     >
-      <div className="font-instrument-serif text-7xl md:text-9xl lg:text-12xl font-extrabold text-center light-gray-color opacity-95 px-10 leading-tight max-w-[1200px]">
+      <div className="font-instrument-serif text-7xl md:text-9xl lg:text-12xl font-extrabold text-center light-gray-color opacity-98 px-10 leading-tight max-w-[1200px]">
         THE DESIGN PRACTICE OF AUSTEN EZZELL
       </div>
     </div>

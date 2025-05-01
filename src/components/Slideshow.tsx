@@ -225,7 +225,7 @@ export default function Slideshow({
           onClick={e => e.stopPropagation()}
         >
           <span className="bg-[rgba(0,0,0,0.6)] text-white px-4 py-3 rounded-lg text-sm">{title}</span>
-          <span className="text-black border-[2px] border-[rgba(0,0,0,0.6)] px-4 py-3 rounded-full text-sm">
+          <span className="text-black border-[1px] border-[rgba(0,0,0,0.6)] px-4 py-3 rounded-full text-sm">
             {mediaItems[currentIndex].date}
           </span>
         </div>
