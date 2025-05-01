@@ -11,6 +11,7 @@ interface PageNavigationProps {
   children?: React.ReactNode;
   className?: string;
   width?: string;
+  onHoverChange?: (isHovered: boolean) => void;
 }
 
 export default function PageNavigation({ 
@@ -19,7 +20,8 @@ export default function PageNavigation({
   showCloseButton = true,
   children,
   className = '',
-  width = 'max-w-[500px]'
+  width = 'max-w-[500px]',
+  onHoverChange
 }: PageNavigationProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -49,9 +51,13 @@ export default function PageNavigation({
   };
 
   const navigationContent = (
-    <div className={`page-navigation fixed top-4 left-1/2 -translate-x-1/2 w-full ${width} bg-[rgba(0,0,0,0.6)] backdrop-blur-lg p-5 rounded-xl flex items-center transition-all duration-500 ease-out z-[9999] ${isClosing ? '-translate-y-full opacity-0' : isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'} ${className}`}>
+    <div className={`page-navigation fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] ${width} bg-[rgba(0,0,0,0.6)] backdrop-blur-lg p-5 rounded-xl flex items-center transition-all duration-500 ease-out z-[9999] ${isClosing ? '-translate-y-full opacity-0' : isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'} ${className}`}>
       <span className="text-white font-serif italic text-sm sm:text-base">{title}</span>
-      <div className="flex-1 flex justify-center mx-4">
+      <div 
+        className="nav-buttons flex-1 flex justify-center mx-4"
+        onMouseEnter={() => onHoverChange?.(true)}
+        onMouseLeave={() => onHoverChange?.(false)}
+      >
         {children}
       </div>
       {showCloseButton && onClose && (

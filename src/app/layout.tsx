@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Instrument_Sans, Instrument_Serif } from 'next/font/google';
 import Link from 'next/link';
-import Footer from '../components/Footer';
 import { ModalProvider } from '@/context/ModalContext';
+import ClientFooter from '../components/ClientFooter';
 import './globals.css';
 
 const instrumentSans = Instrument_Sans({
@@ -34,7 +34,7 @@ export default function RootLayout({
         <ModalProvider>
           <div className="main-container min-h-screen flex flex-col bg-light-gray">
             {/* Header */}
-            <header className="py-6 text-center h-[200px]">
+            <header className="py-6 text-center md:h-[200px]">
               <Link href="/">
                 <h1 className="text-sm">The design practice<br />of Austen Ezzell</h1>
               </Link>
@@ -45,7 +45,9 @@ export default function RootLayout({
               {children}
             </main>
 
-            <Footer />
+            {/* Footer container */}
+            <div id="footer-root" />
+            <ClientFooter />
           </div>
         </ModalProvider>
       </body>

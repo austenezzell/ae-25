@@ -56,19 +56,21 @@ export default function Footer() {
   return (
     <>
       <footer className="max-w-6xl mx-auto py-6 min-h-[200px] flex items-end">
-        <div className="flex flex-col md:flex-row justify-between gap-8 text-center md:text-left w-full mx-auto items-end">
+        <div className="flex flex-col md:flex-row justify-between gap-8 text-center md:text-left w-full md:w-auto mx-auto items-end">
           {/* Logo */}
-          <div className="w-full md:w-[120px] text-center opacity-65 hover:opacity-100 order-1 md:order-2 self-end">
-            <Link href="/">
-              <Image
-                src="/ae25.svg"
-                alt="AE25"
-                width={54}
-                height={60}
-                priority
-                className="h-auto mx-auto text-black hover:text-gray transition-colors w-[120px]"
-              />
-            </Link>
+          <div className="w-full md:w-[120px] text-center order-1 md:order-2 self-end">
+            <div className="flex justify-center">
+              <Link href="/" className="opacity-65 hover:opacity-100">
+                <Image
+                  src="/ae25.svg"
+                  alt="AE25"
+                  width={54}
+                  height={60}
+                  priority
+                  className="h-auto text-black hover:text-gray transition-colors w-[120px]"
+                />
+              </Link>
+            </div>
           </div>
 
           {/* Navigation Columns Container */}
@@ -77,7 +79,7 @@ export default function Footer() {
             <div className="footer-nav w-1/2 md:w-auto text-center">
               <ul className="flex flex-col font-serif italic">
                 <li><Link href="/design" className="hover:text-gray transition-colors opacity-65 hover:opacity-100">Design</Link></li>
-                <li><Link href="#" className="hover:text-gray transition-colors opacity-65 hover:opacity-100">Photo Blog</Link></li>
+                <li><Link href="/photoblog" className="hover:text-gray transition-colors opacity-65 hover:opacity-100">Photo Blog</Link></li>
                 <li>
                   <button
                     onClick={() => setIsPortfoliosModalOpen(true)}
@@ -99,7 +101,7 @@ export default function Footer() {
           </div>
 
           {/* Quote Section */}
-          <div className="w-full md:w-[400px] text-center order-3 md:order-1 self-end">
+          <div className="w-full md:w-[400px] text-center order-3 md:order-1 self-end px-8 md:px-0">
             <p className="text-sm mb-2 opacity-65">
               &ldquo;{quotes[currentQuoteIndex].text}&rdquo;<span className='nowrap'> — {quotes[currentQuoteIndex].author}</span>
             </p>
