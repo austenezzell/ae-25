@@ -1,16 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import PageNavigation from './PageNavigation';
+import Image from 'next/image';
 
 export interface MediaItem {
   type: 'image' | 'video';
   src: string;
   alt: string;
   date?: string;
-  backgroundColor?: string;
 }
 
 interface UnifiedOverlayProps {
@@ -20,7 +19,9 @@ interface UnifiedOverlayProps {
   showDate?: boolean;
   autoAdvance?: boolean;
   autoAdvanceInterval?: number;
-  initialBackgroundColor?: string;
+  initialIndex?: number;
+  className?: string;
+  onIndexChange?: (index: number) => void;
 }
 
 export default function UnifiedOverlay({ 
@@ -30,48 +31,41 @@ export default function UnifiedOverlay({
   showDate = false,
   autoAdvance = true,
   autoAdvanceInterval = 4000,
-  initialBackgroundColor = '#ffffff'
+  initialIndex = 0,
+  className = '',
+  onIndexChange
 }: UnifiedOverlayProps) {
   const router = useRouter();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [lastChangeTime, setLastChangeTime] = useState(0);
   const [isClosing, setIsClosing] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [shouldSlideHeader, setShouldSlideHeader] = useState(false);
-  const [originalBackgroundColor, setOriginalBackgroundColor] = useState<string>(initialBackgroundColor);
-  
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const handleClose = (fromButton: boolean = false) => {
+    setIsClosing(true);
+    setShouldSlideHeader(fromButton);
+    
+    // Wait for the transition to complete before closing
+    setTimeout(() => {
+      onClose();
+      // Use replace instead of push to prevent adding to history
+      router.replace('/');
+    }, 500); // Match the duration of the transition
+  };
+
   useEffect(() => {
     setMounted(true);
     const timer = setTimeout(() => {
       setIsVisible(true);
+      setLastChangeTime(Date.now());
     }, 50);
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    const mainContainer = document.querySelector('.main-container');
-    if (mainContainer) {
-      // Store original background color
-      const originalColor = (mainContainer as HTMLElement).style.backgroundColor || initialBackgroundColor;
-      setOriginalBackgroundColor(originalColor);
-      
-      // Add transition class to main container
-      mainContainer.classList.add('transition-colors', 'duration-500');
-      // Set initial background color
-      (mainContainer as HTMLElement).style.backgroundColor = mediaItems[currentIndex].backgroundColor || initialBackgroundColor;
-    }
-    return () => {
-      const mainContainer = document.querySelector('.main-container');
-      if (mainContainer) {
-        // Remove transition class and restore original background color
-        mainContainer.classList.remove('transition-colors', 'duration-500');
-        (mainContainer as HTMLElement).style.backgroundColor = originalBackgroundColor;
-      }
-    };
-  }, [currentIndex, mediaItems, originalBackgroundColor, initialBackgroundColor]);
-  
   useEffect(() => {
     if (isPaused || !autoAdvance) return;
 
@@ -84,7 +78,7 @@ export default function UnifiedOverlay({
     }, 100);
 
     return () => clearInterval(timer);
-  }, [lastChangeTime, isPaused, autoAdvance, autoAdvanceInterval]);
+  }, [lastChangeTime, isPaused, autoAdvance, autoAdvanceInterval, mediaItems.length]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -101,21 +95,14 @@ export default function UnifiedOverlay({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [mediaItems.length, handleClose]);
 
-  const handleClose = (fromButton: boolean = false) => {
-    setIsClosing(true);
-    setShouldSlideHeader(fromButton);
-    // Start transition back to original color
-    const mainContainer = document.querySelector('.main-container');
-    if (mainContainer) {
-      (mainContainer as HTMLElement).style.backgroundColor = originalBackgroundColor;
+  useEffect(() => {
+    setIsVisible(true);
+    if (onIndexChange) {
+      onIndexChange(currentIndex);
     }
-    setTimeout(() => {
-      onClose();
-      router.push('/');
-    }, 500);
-  };
+  }, [currentIndex, onIndexChange]);
 
   if (!mounted) return null;
 
@@ -123,7 +110,7 @@ export default function UnifiedOverlay({
     <div 
       className={`media-overlay fixed inset-0 backdrop-blur-sm z-50 flex flex-col items-center justify-center transition-all duration-500 ${
         isClosing ? 'opacity-0' : isVisible ? 'opacity-100' : 'opacity-0'
-      }`}
+      } ${className}`}
       onClick={() => handleClose(false)}
     >
       {/* Header */}
@@ -164,8 +151,12 @@ export default function UnifiedOverlay({
         }`}
         onClick={(e) => {
           e.stopPropagation();
-          setCurrentIndex((prevIndex) => (prevIndex + 1) % mediaItems.length);
-          setLastChangeTime(Date.now());
+          if (!isTransitioning) {
+            setIsTransitioning(true);
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % mediaItems.length);
+            setLastChangeTime(Date.now());
+            setTimeout(() => setIsTransitioning(false), 500);
+          }
         }}
       >
         {mediaItems.map((item, index) => (
@@ -206,7 +197,7 @@ export default function UnifiedOverlay({
           onClick={e => e.stopPropagation()}
         >
           <span className="bg-[rgba(0,0,0,0.6)] text-white px-4 py-3 rounded-lg text-sm">{title}</span>
-          <span className="text-black border-[2px] border-[rgba(0,0,0,0.6)] px-4 py-3 rounded-full text-sm">
+          <span className="text-black border-[1px] border-[rgba(0,0,0,0.6)] px-4 py-3 rounded-full text-sm">
             {mediaItems[currentIndex].date}
           </span>
         </div>

@@ -8,34 +8,30 @@ interface ContentPhotoblogProps {
 }
 
 export default function ContentPhotoblog({ onClose }: ContentPhotoblogProps) {
-  const slides: MediaItem[] = [
+  const mediaItems = [
     {
       type: 'image' as const,
       src: '/photoblog/1.jpg',
-      alt: 'Photoblog Image 1',
-      date: 'January 1, 2024',
-      backgroundColor: '#f5f5f5'
+      alt: 'Photoblog image 1',
+      date: '2024-03-20'
     },
     {
       type: 'image' as const,
       src: '/photoblog/2.jpg',
-      alt: 'Photoblog Image 2',
-      date: 'January 15, 2024',
-      backgroundColor: '#ffffff'
+      alt: 'Photoblog image 2',
+      date: '2024-03-19'
     },
     {
       type: 'image' as const,
       src: '/photoblog/3.jpg',
-      alt: 'Photoblog Image 3',
-      date: 'February 1, 2024',
-      backgroundColor: '#f0f0f0'
+      alt: 'Photoblog image 3',
+      date: '2024-03-18'
     },
     {
       type: 'image' as const,
       src: '/photoblog/4.jpg',
-      alt: 'Photoblog Image 4',
-      date: 'February 15, 2024',
-      backgroundColor: '#e5e5e5'
+      alt: 'Photoblog image 4',
+      date: '2024-03-17'
     }
   ];
 
@@ -43,7 +39,7 @@ export default function ContentPhotoblog({ onClose }: ContentPhotoblogProps) {
     <Slideshow
       title="Photoblog"
       onClose={onClose}
-      mediaItems={slides}
+      mediaItems={mediaItems}
       showDate={true}
       autoAdvance={true}
       autoAdvanceInterval={4000}
