@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import PageNavigation from './PageNavigation';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 export interface MediaItem {
   type: 'image' | 'video';
   src: string;
   alt: string;
   date?: string;
-  backgroundColor?: string;
 }
 
 interface SlideshowProps {
@@ -20,6 +20,12 @@ interface SlideshowProps {
   showDate?: boolean;
   autoAdvance?: boolean;
   autoAdvanceInterval?: number;
+  initialIndex?: number;
+  showNavigation?: boolean;
+  showCloseButton?: boolean;
+  className?: string;
+  onIndexChange?: (index: number) => void;
+  onHoverChange?: (paused: boolean) => void;
 }
 
 export default function Slideshow({ 
@@ -28,21 +34,31 @@ export default function Slideshow({
   mediaItems,
   showDate = false,
   autoAdvance = true,
-  autoAdvanceInterval = 4000
+  autoAdvanceInterval = 4000,
+  initialIndex = 0,
+  showNavigation = true,
+  showCloseButton = true,
+  className = '',
+  onIndexChange,
+  onHoverChange
 }: SlideshowProps) {
   const router = useRouter();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [lastChangeTime, setLastChangeTime] = useState(0);
   const [isClosing, setIsClosing] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [shouldSlideHeader, setShouldSlideHeader] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
   
   useEffect(() => {
     setMounted(true);
     const timer = setTimeout(() => {
       setIsVisible(true);
+      setLastChangeTime(Date.now());
     }, 50);
     return () => clearTimeout(timer);
   }, []);
@@ -53,10 +69,6 @@ export default function Slideshow({
     if (mainContainer) {
       // Add transition class to main container
       mainContainer.classList.add('transition-colors', 'duration-500');
-      // Add the background color class based on current media item
-      if (mediaItems[currentIndex].backgroundColor) {
-        mainContainer.classList.add(`bg-[${mediaItems[currentIndex].backgroundColor}]`);
-      }
     }
     if (footer) {
       footer.classList.add('opacity-0', 'transition-opacity', 'duration-500');
@@ -65,13 +77,8 @@ export default function Slideshow({
       const mainContainer = document.querySelector('.main-container');
       const footer = document.querySelector('footer');
       if (mainContainer) {
-        // Remove all background color classes and transition class
+        // Remove transition class
         mainContainer.classList.remove('transition-colors', 'duration-500');
-        mediaItems.forEach(item => {
-          if (item.backgroundColor) {
-            mainContainer.classList.remove(`bg-[${item.backgroundColor}]`);
-          }
-        });
       }
       if (footer) {
         footer.classList.remove('opacity-0', 'transition-opacity', 'duration-500');
@@ -110,19 +117,22 @@ export default function Slideshow({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    setIsVisible(true);
+    if (onIndexChange) {
+      onIndexChange(currentIndex);
+    }
+  }, [currentIndex, onIndexChange]);
+
   const handleClose = (fromButton: boolean = false) => {
     setIsClosing(true);
     setShouldSlideHeader(fromButton);
     
-    // Remove background color class
+    // Remove transition class
     const mainContainer = document.querySelector('.main-container');
     const footer = document.querySelector('footer');
     if (mainContainer) {
-      mediaItems.forEach(item => {
-        if (item.backgroundColor) {
-          mainContainer.classList.remove(`bg-[${item.backgroundColor}]`);
-        }
-      });
+      mainContainer.classList.remove('transition-colors', 'duration-500');
     }
     if (footer) {
       footer.classList.remove('opacity-0', 'transition-opacity', 'duration-500');
@@ -134,6 +144,32 @@ export default function Slideshow({
       // Use replace instead of push to prevent adding to history
       router.replace('/');
     }, 500); // Match the duration of the transition
+  };
+
+  const handleNext = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex((prevIndex) => {
+      const nextIndex = (prevIndex + 1) % mediaItems.length;
+      if (onIndexChange) {
+        onIndexChange(nextIndex);
+      }
+      return nextIndex;
+    });
+    setTimeout(() => setIsTransitioning(false), 500);
+  };
+
+  const handlePrevious = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex((prevIndex) => {
+      const prev = prevIndex === 0 ? mediaItems.length - 1 : prevIndex - 1;
+      if (onIndexChange) {
+        onIndexChange(prev);
+      }
+      return prev;
+    });
+    setTimeout(() => setIsTransitioning(false), 500);
   };
 
   if (!mounted) return null;

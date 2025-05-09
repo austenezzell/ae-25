@@ -32,16 +32,16 @@ const quotes = [
     author: "Charles Emes"
   },
   {
-    text: "Design is not what we make. Design is what we make possible for others",
-    author: "Tim Brown"
-  },
-  {
     text: "Art is never finished, only abandoned",
     author: "Leonardo da Vinci"
   },
   {
     text: "Design is relationships. Design is a relationship between form and content",
     author: "Paul Rand"
+  },
+  {
+    text: "Just make something fancy that is'nt a lot of work",
+    author: "Brian Peterson"
   }
 ];
 
@@ -53,9 +53,11 @@ export default function Footer() {
     setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
   };
 
+  const currentQuote = quotes[currentQuoteIndex] || quotes[0];
+
   return (
     <>
-      <footer className="max-w-6xl mx-auto py-6 min-h-[200px] flex items-end">
+      <footer className="w-full py-8 px-6 md:px-8 flex flex-col md:flex-row justify-between items-end gap-8 md:gap-12">
         <div className="flex flex-col md:flex-row justify-between gap-8 text-center md:text-left w-full md:w-auto mx-auto items-end">
           {/* Logo */}
           <div className="w-full md:w-[120px] text-center order-1 md:order-2 self-end">
@@ -93,17 +95,17 @@ export default function Footer() {
             {/* Second Nav Column */}
             <div className="footer-nav w-1/2 md:w-auto text-center">
               <ul className="flex flex-col font-serif italic">
-                <li><Link href="#" className="hover:text-gray transition-colors opacity-65 hover:opacity-100">Email</Link></li>
-                <li><Link href="#" className="hover:text-gray transition-colors opacity-65 hover:opacity-100">LinkedIn</Link></li>
-                <li><Link href="/guestbook" className="hover:text-gray transition-colors opacity-65 hover:opacity-100">Sign the Guest Book</Link></li>
+                <li><Link href="mailto:austenezzell@gmail.com" className="hover:text-gray transition-colors opacity-65 hover:opacity-100">Email</Link></li>
+                <li><Link href="https://www.linkedin.com/in/austenezzell/" className="hover:text-gray transition-colors opacity-65 hover:opacity-100">Are.na</Link></li>
+                <li><Link href="https://www.are.na/austen-ezzell/channels" className="hover:text-gray transition-colors opacity-65 hover:opacity-100">LinkedIn</Link></li>
               </ul>
             </div>
           </div>
 
           {/* Quote Section */}
-          <div className="w-full max-w-[400px] md:w-[400px] text-center order-3 md:order-1 self-center mx-auto px-8 md:px-0">
+          <div className="w-full max-w-[400px] md:w-[400px] text-center order-3 md:order-1 self-end mx-auto px-8 md:px-0 flex flex-col justify-end">
             <p className="text-sm mb-2 opacity-65">
-              &ldquo;{quotes[currentQuoteIndex].text}&rdquo;<span className='nowrap'> — {quotes[currentQuoteIndex].author}</span>
+              &ldquo;{currentQuote.text}&rdquo;<span className='nowrap'> — {currentQuote.author}</span>
             </p>
             <button 
               onClick={handleNextQuote}

@@ -7,15 +7,15 @@ import Image from 'next/image';
 import { useModal } from '@/context/ModalContext';
 
 const portfolios = [
-  { year: '13', link: '#' },
-  { year: '14', link: '#' },
-  { year: '15', link: '#' },
-  { year: '16', link: '#' },
-  { year: '17', link: '#' },
-  { year: '18', link: '#' },
-  { year: '21', link: '#' },
-  { year: '22', link: '#' },
-  { year: '23', link: '#' },
+  { year: '13', link: 'https://2013.austenezzell.com/' },
+  { year: '14', link: 'https://2014.austenezzell.com/' },
+  { year: '15', link: 'https://2015.austenezzell.com/' },
+  { year: '16', link: 'https://2016.austenezzell.com/' },
+  { year: '17', link: 'https://2017.austenezzell.com/' },
+  { year: '18', link: 'https://2018.austenezzell.com/' },
+  { year: '21', link: 'https://2021.austenezzell.com/' },
+  { year: '22', link: 'https://2022.austenezzell.com/' },
+  { year: '23', link: 'https://2023.austenezzell.com/' },
 ];
 
 export default function PortfoliosModal() {
