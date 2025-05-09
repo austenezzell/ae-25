@@ -20,13 +20,15 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://austenezzell.com'),
   title: 'Austen Ezzell',
   description: 'The design practice of Austen Ezzell',
   icons: {
     icon: [
       {
-        url: '/favicon.ico',
-        sizes: 'any',
+        url: '/favicon.png',
+        type: 'image/png',
+        sizes: '32x32',
       },
       {
         url: '/icon.png',

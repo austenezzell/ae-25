@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import PageNavigation from './PageNavigation';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 export interface MediaItem {
   type: 'image' | 'video';
@@ -21,8 +20,6 @@ interface SlideshowProps {
   autoAdvance?: boolean;
   autoAdvanceInterval?: number;
   initialIndex?: number;
-  showNavigation?: boolean;
-  showCloseButton?: boolean;
   className?: string;
   onIndexChange?: (index: number) => void;
   onHoverChange?: (paused: boolean) => void;
@@ -36,12 +33,9 @@ export default function Slideshow({
   autoAdvance = true,
   autoAdvanceInterval = 4000,
   initialIndex = 0,
-  showNavigation = true,
-  showCloseButton = true,
   className = '',
   onIndexChange,
-  onHoverChange
-}: SlideshowProps) {
+  }: SlideshowProps) {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [lastChangeTime, setLastChangeTime] = useState(0);
@@ -51,9 +45,29 @@ export default function Slideshow({
   const [isVisible, setIsVisible] = useState(false);
   const [shouldSlideHeader, setShouldSlideHeader] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  
+
+  const handleClose = useCallback((fromButton: boolean = false) => {
+    setIsClosing(true);
+    setShouldSlideHeader(fromButton);
+    
+    // Remove transition class
+    const mainContainer = document.querySelector('.main-container');
+    const footer = document.querySelector('footer');
+    if (mainContainer) {
+      mainContainer.classList.remove('transition-colors', 'duration-500');
+    }
+    if (footer) {
+      footer.classList.remove('opacity-0', 'transition-opacity', 'duration-500');
+    }
+    
+    // Wait for the transition to complete before closing
+    setTimeout(() => {
+      onClose();
+      // Use replace instead of push to prevent adding to history
+      router.replace('/');
+    }, 500); // Match the duration of the transition
+  }, [onClose, router]);
+
   useEffect(() => {
     setMounted(true);
     const timer = setTimeout(() => {
@@ -98,7 +112,7 @@ export default function Slideshow({
     }, 100);
 
     return () => clearInterval(timer);
-  }, [lastChangeTime, isPaused, autoAdvance, autoAdvanceInterval]);
+  }, [lastChangeTime, isPaused, autoAdvance, autoAdvanceInterval, mediaItems.length]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -115,7 +129,7 @@ export default function Slideshow({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [mediaItems.length, handleClose]);
 
   useEffect(() => {
     setIsVisible(true);
@@ -124,61 +138,13 @@ export default function Slideshow({
     }
   }, [currentIndex, onIndexChange]);
 
-  const handleClose = (fromButton: boolean = false) => {
-    setIsClosing(true);
-    setShouldSlideHeader(fromButton);
-    
-    // Remove transition class
-    const mainContainer = document.querySelector('.main-container');
-    const footer = document.querySelector('footer');
-    if (mainContainer) {
-      mainContainer.classList.remove('transition-colors', 'duration-500');
-    }
-    if (footer) {
-      footer.classList.remove('opacity-0', 'transition-opacity', 'duration-500');
-    }
-    
-    // Wait for the transition to complete before closing
-    setTimeout(() => {
-      onClose();
-      // Use replace instead of push to prevent adding to history
-      router.replace('/');
-    }, 500); // Match the duration of the transition
-  };
-
-  const handleNext = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prevIndex) => {
-      const nextIndex = (prevIndex + 1) % mediaItems.length;
-      if (onIndexChange) {
-        onIndexChange(nextIndex);
-      }
-      return nextIndex;
-    });
-    setTimeout(() => setIsTransitioning(false), 500);
-  };
-
-  const handlePrevious = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prevIndex) => {
-      const prev = prevIndex === 0 ? mediaItems.length - 1 : prevIndex - 1;
-      if (onIndexChange) {
-        onIndexChange(prev);
-      }
-      return prev;
-    });
-    setTimeout(() => setIsTransitioning(false), 500);
-  };
-
   if (!mounted) return null;
 
   return (
     <div 
       className={`media-overlay fixed inset-0 backdrop-blur-sm z-50 flex flex-col items-center justify-center transition-all duration-500 ${
         isClosing ? 'opacity-0' : isVisible ? 'opacity-100' : 'opacity-0'
-      }`}
+      } ${className}`}
       onClick={() => handleClose(false)}
     >
       {/* Header */}
@@ -219,8 +185,12 @@ export default function Slideshow({
         }`}
         onClick={(e) => {
           e.stopPropagation();
-          setCurrentIndex((prevIndex) => (prevIndex + 1) % mediaItems.length);
-          setLastChangeTime(Date.now());
+          if (!isTransitioning) {
+            setIsTransitioning(true);
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % mediaItems.length);
+            setLastChangeTime(Date.now());
+            setTimeout(() => setIsTransitioning(false), 500);
+          }
         }}
       >
         {mediaItems.map((item, index) => (

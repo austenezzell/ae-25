@@ -32,23 +32,22 @@ export default function PortfoliosModal() {
   // Handle page navigation opacity when modal is open/closed
   useEffect(() => {
     if (mounted) {
-      const pageNavigations = document.querySelectorAll('.page-navigation');
+      const pageNavigation = document.querySelectorAll('.page-navigation');
       
       if (isPortfoliosModalOpen) {
         // Hide page navigation when modal is open
-        pageNavigations.forEach(nav => {
+        pageNavigation.forEach((nav: Element) => {
           (nav as HTMLElement).style.opacity = '0';
         });
       } else {
         // Show page navigation when modal is closed
-        pageNavigations.forEach(nav => {
+        pageNavigation.forEach((nav: Element) => {
           (nav as HTMLElement).style.opacity = '';
         });
       }
-      
       // Cleanup function
       return () => {
-        pageNavigations.forEach(nav => {
+        pageNavigation.forEach((nav: Element) => {
           (nav as HTMLElement).style.opacity = '';
         });
       };

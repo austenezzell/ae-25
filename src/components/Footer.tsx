@@ -40,6 +40,10 @@ const quotes = [
     author: "Paul Rand"
   },
   {
+    text: "Art is more about what it is, then what it isn't",
+    author: "Michael Ezzell"
+  },
+  {
     text: "Just make something fancy that is'nt a lot of work",
     author: "Brian Peterson"
   }
@@ -96,8 +100,8 @@ export default function Footer() {
             <div className="footer-nav w-1/2 md:w-auto text-center">
               <ul className="flex flex-col font-serif italic">
                 <li><Link href="mailto:austenezzell@gmail.com" className="hover:text-gray transition-colors opacity-65 hover:opacity-100">Email</Link></li>
-                <li><Link href="https://www.linkedin.com/in/austenezzell/" className="hover:text-gray transition-colors opacity-65 hover:opacity-100">Are.na</Link></li>
-                <li><Link href="https://www.are.na/austen-ezzell/channels" className="hover:text-gray transition-colors opacity-65 hover:opacity-100">LinkedIn</Link></li>
+                <li><Link href="https://www.are.na/austen-ezzell/" className="hover:text-gray transition-colors opacity-65 hover:opacity-100">Are.na</Link></li>
+                <li><Link href="https://www.linkedin.com/in/austenezzell/" className="hover:text-gray transition-colors opacity-65 hover:opacity-100">LinkedIn</Link></li>
               </ul>
             </div>
           </div>
@@ -109,7 +113,7 @@ export default function Footer() {
             </p>
             <button 
               onClick={handleNextQuote}
-              className="opacity-65 font-serif italic hover:text-gray transition-colors opacity-65 hover:opacity-100"
+              className="opacity-65 font-serif italic hover:text-gray transition-colors hover:opacity-100"
             >
               (view another)
             </button>
