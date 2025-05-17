@@ -5,6 +5,7 @@ import { ModalProvider } from '@/context/ModalContext';
 import ClientFooter from '../components/ClientFooter';
 import TitleOverlay from '../components/TitleOverlay';
 import './globals.css';
+import { MediaProvider } from '@/context/MediaContext';
 
 const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
@@ -81,24 +82,26 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${instrumentSans.className} ${instrumentSerif.variable}`}>
         <ModalProvider>
-          <div className="main-container min-h-screen flex flex-col bg-light-gray">
-            {/* Header */}
-            <header className="py-6 text-center md:h-[200px]">
-              <Link href="/" className="text-sm inline-block">
-                The design practice<br />of Austen Ezzell
-              </Link>
-            </header>
+          <MediaProvider>
+            <div className="main-container min-h-screen flex flex-col bg-light-gray">
+              {/* Header */}
+              <header className="py-6 text-center md:h-[200px]">
+                <Link href="/" className="text-sm inline-block">
+                  The design practice<br />of Austen Ezzell
+                </Link>
+              </header>
 
-            {/* Main Content */}
-            <main className="flex-1 flex items-center justify-center">
-              {children}
-            </main>
+              {/* Main Content */}
+              <main className="flex-1 flex items-center justify-center">
+                {children}
+              </main>
 
-            {/* Footer container */}
-            <div id="footer-root" />
-            <ClientFooter />
-            <TitleOverlay />
-          </div>
+              {/* Footer container */}
+              <div id="footer-root" />
+              <ClientFooter />
+              <TitleOverlay />
+            </div>
+          </MediaProvider>
         </ModalProvider>
       </body>
     </html>

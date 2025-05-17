@@ -57,7 +57,7 @@ export default function MediaPage({ OverlayComponent, title }: MediaPageProps) {
         <OverlayComponent onClose={handleClose} />,
         document.body
       )}
-      <div className="flex-grow flex items-center justify-center md:px-md-sp py-xl-sp min-h-[640px]">
+      <div className="flex-grow flex items-center justify-center md:px-md-sp py-xl-sp min-h-[300px]">
         <h2 className="text-xl md:max-w-[900px] text-center leading-tight text-balance">
           Currently helping build <Link href="/design" className="font-serif italic hover:underline">design</Link> and the future of business communications at <Link href="/dialpad" className="font-serif italic hover:underline">Dialpad</Link>.
         </h2>

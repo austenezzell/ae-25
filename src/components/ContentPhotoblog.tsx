@@ -8,6 +8,13 @@ interface ContentPhotoblogProps {
 
 export default function ContentPhotoblog({ onClose }: ContentPhotoblogProps) {
   const mediaItems = [
+
+    {
+      type: 'image' as const,
+      src: '/photoblog/16_05_25_maggie.jpg',
+      alt: 'Maggai',
+      date: 'May 16, 2025'
+    },
     {
       type: 'video' as const,
       src: '/photoblog/portugal.mp4',
@@ -16,13 +23,13 @@ export default function ContentPhotoblog({ onClose }: ContentPhotoblogProps) {
     },
     {
       type: 'image' as const,
-      src: '/photoblog/23_02_10_laguna.jpeg',
+      src: '/photoblog/23_02_10_laguna.jpg',
       alt: 'Laguna Beach',
       date: 'February 10, 2023'
     },
     {
       type: 'image' as const,
-      src: '/photoblog/22_11_03_laguna.jpeg',
+      src: '/photoblog/22_11_03_laguna.jpg',
       alt: 'Laguna Beach',
       date: 'November 3, 2022'
     },
@@ -52,7 +59,7 @@ export default function ContentPhotoblog({ onClose }: ContentPhotoblogProps) {
     },
     {
       type: 'image' as const,
-      src: '/photoblog/16_03_15_costa_rica.JPG',
+      src: '/photoblog/16_03_15_costa_rica.jpg',
       alt: 'Costa Rica',
       date: 'March 15, 2016'
     },
