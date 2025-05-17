@@ -4,33 +4,39 @@ import Slideshow from './Slideshow';
 
 interface ContentPhotoblogProps {
   onClose: () => void;
+  title: string;
 }
 
-export default function ContentPhotoblog({ onClose }: ContentPhotoblogProps) {
+export default function ContentPhotoblog({ onClose, title }: ContentPhotoblogProps) {
   const mediaItems = [
-
     {
       type: 'image' as const,
       src: '/photoblog/16_05_25_maggie.jpg',
-      alt: 'Maggai',
-      date: 'May 16, 2025'
+      alt: 'Maggie',
+      date: 'May 25, 2016'
     },
     {
       type: 'video' as const,
       src: '/photoblog/portugal.mp4',
       alt: 'Portugal',
-      date: 'April 12, 2025'
+      date: 'May 15, 2025'
+    },
+    {
+      type: 'image' as const,
+      src: '/photoblog/25_03_30_london.jpg',
+      alt: 'London',
+      date: 'March 30, 2025'
     },
     {
       type: 'image' as const,
       src: '/photoblog/23_02_10_laguna.jpg',
-      alt: 'Laguna Beach',
+      alt: 'Laguna',
       date: 'February 10, 2023'
     },
     {
       type: 'image' as const,
       src: '/photoblog/22_11_03_laguna.jpg',
-      alt: 'Laguna Beach',
+      alt: 'Laguna',
       date: 'November 3, 2022'
     },
     {
@@ -115,7 +121,7 @@ export default function ContentPhotoblog({ onClose }: ContentPhotoblogProps) {
       type: 'image' as const,
       src: '/photoblog/14_03_23_india.jpg',
       alt: 'India',
-      date: 'March 24, 2014'
+      date: 'March 23, 2014'
     },
     {
       type: 'image' as const,
@@ -186,20 +192,20 @@ export default function ContentPhotoblog({ onClose }: ContentPhotoblogProps) {
     {
       type: 'image' as const,
       src: '/photoblog/08_06_12_laguna.jpg',
-      alt: 'Laguna Beach',
+      alt: 'Laguna',
       date: 'June 12, 2008'
     },
     {
       type: 'image' as const,
       src: '/photoblog/08_03_15_costa.jpg',
-      alt: 'Costa Rica',
+      alt: 'Costa',
       date: 'March 15, 2008'
     }
   ];
 
   return (
     <Slideshow
-      title="Photo blog"
+      title={title}
       onClose={onClose}
       mediaItems={mediaItems}
       showDate={true}

@@ -72,6 +72,6 @@ export default function PageNavigation({
     </div>
   );
 
-  // Use portal if mounted, otherwise return null
-  return mounted ? createPortal(navigationContent, document.body) : null;
+  // Use portal if mounted and document is available, otherwise return null
+  return mounted && typeof document !== 'undefined' ? createPortal(navigationContent, document.body) : null;
 } 

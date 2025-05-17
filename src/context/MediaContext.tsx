@@ -14,6 +14,7 @@ interface MediaContextType {
   mediaList: MediaItem[];
   openMedia: (media: MediaItem) => void;
   closeMedia: () => void;
+  setMediaList: (list: MediaItem[]) => void;
 }
 
 const MediaContext = createContext<MediaContextType | undefined>(undefined);
@@ -34,7 +35,7 @@ export function MediaProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <MediaContext.Provider value={{ isOpen, currentMedia, mediaList, openMedia, closeMedia }}>
+    <MediaContext.Provider value={{ isOpen, currentMedia, mediaList, openMedia, closeMedia, setMediaList }}>
       {children}
     </MediaContext.Provider>
   );

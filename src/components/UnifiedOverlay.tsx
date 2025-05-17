@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import PageNavigation from './PageNavigation';
 import Image from 'next/image';
+import { useMediaContext } from '@/context/MediaContext';
 
 export interface MediaItem {
   type: 'image' | 'video';
@@ -35,7 +36,7 @@ export default function UnifiedOverlay({
   className = '',
   onIndexChange
 }: UnifiedOverlayProps) {
-  const router = useRouter();
+  const { isOpen, closeMedia, currentMedia, mediaList } = useMediaContext();
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [lastChangeTime, setLastChangeTime] = useState(0);
   const [isClosing, setIsClosing] = useState(false);
@@ -44,18 +45,20 @@ export default function UnifiedOverlay({
   const [isVisible, setIsVisible] = useState(false);
   const [shouldSlideHeader, setShouldSlideHeader] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const router = useRouter();
 
-  const handleClose = (fromButton: boolean = false) => {
+  const handleClose = useCallback(() => {
     setIsClosing(true);
-    setShouldSlideHeader(fromButton);
+    setShouldSlideHeader(false);
     
     // Wait for the transition to complete before closing
     setTimeout(() => {
       onClose();
-      // Use replace instead of push to prevent adding to history
-      router.replace('/');
+      closeMedia();
+      router.push('/');
     }, 500); // Match the duration of the transition
-  };
+  }, [onClose, closeMedia, router]);
 
   useEffect(() => {
     setMounted(true);
@@ -89,7 +92,7 @@ export default function UnifiedOverlay({
         setCurrentIndex((prevIndex) => (prevIndex + 1) % mediaItems.length);
         setLastChangeTime(Date.now());
       } else if (e.key === 'Escape') {
-        handleClose(false);
+        handleClose();
       }
     };
 
@@ -104,14 +107,44 @@ export default function UnifiedOverlay({
     }
   }, [currentIndex, onIndexChange]);
 
-  if (!mounted) return null;
+  useEffect(() => {
+    if (isOpen && currentMedia) {
+      const index = mediaList.findIndex(media => media.id === currentMedia.id);
+      setCurrentIndex(index);
+    }
+  }, [isOpen, currentMedia, mediaList]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientY);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchStart) return;
+
+    const currentTouch = e.touches[0].clientY;
+    const diff = touchStart - currentTouch;
+
+    // If swiping down more than 100px
+    if (diff < -100) {
+      handleClose();
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setTouchStart(null);
+  };
+
+  if (!mounted || !isOpen || !currentMedia) return null;
 
   return (
     <div 
       className={`media-overlay fixed inset-0 backdrop-blur-sm z-50 flex flex-col items-center justify-center transition-all duration-500 ${
         isClosing ? 'opacity-0' : isVisible ? 'opacity-100' : 'opacity-0'
       } ${className}`}
-      onClick={() => handleClose(false)}
+      onClick={() => handleClose()}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {/* Header */}
       <div 
@@ -122,7 +155,7 @@ export default function UnifiedOverlay({
       >
         <PageNavigation 
           title={title} 
-          onClose={() => handleClose(true)}
+          onClose={() => handleClose()}
           onHoverChange={setIsPaused}
         >
           <div className="flex gap-1 w-full max-w-[300px]">
