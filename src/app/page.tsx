@@ -4,10 +4,12 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="flex-grow flex items-center justify-center px-lg-sp py-xl-sp">
-      <h2 className="text-xl md:max-w-[900px] text-center leading-tight text-balance">
-        Currently building <Link href="/design" className="font-serif italic hover:underline">design</Link> and the future of business communications at <Link href="/dialpad" className="font-serif italic hover:underline">Dialpad</Link>.
-      </h2>
+    <div className="w-full h-full">
+      <div className="flex-grow flex items-center justify-center md:px-md-sp py-xl-sp min-h-[640px]">
+        <h2 className="text-xl md:max-w-[900px] text-center leading-tight text-balance">
+          Currently helping build <Link href="/design" className="font-serif italic hover:underline underline md:no-underline">design</Link> and the future of business communications at <Link href="/dialpad" className="font-serif italic hover:underline underline md:no-underline">Dialpad</Link>.
+        </h2>
+      </div>
     </div>
   );
 }

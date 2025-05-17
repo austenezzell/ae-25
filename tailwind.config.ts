@@ -19,10 +19,15 @@ const config: Config = {
         'blur-in': {
           '0%': { backdropFilter: 'blur(0px)' },
           '100%': { backdropFilter: 'blur(6px)' }
+        },
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' }
         }
       },
       animation: {
-        'blur-in': 'blur-in 0.5s ease-out forwards'
+        'blur-in': 'blur-in 0.5s ease-out forwards',
+        'fade-in': 'fade-in 0.3s ease-out forwards'
       },
       spacing: {
         'xs-sp': '2px',
