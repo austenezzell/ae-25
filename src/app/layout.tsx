@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     siteName: 'Austen Ezzell',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Austen Ezzell',
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Austen Ezzell',
     description: 'The design practice of Austen Ezzell',
-    images: ['/og-image.jpg'],
+    images: ['/og-image.png'],
   },
 };
 
