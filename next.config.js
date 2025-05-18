@@ -7,7 +7,8 @@ const nextConfig = {
         hostname: 'ae-25.vercel.app',
       },
     ],
-    unoptimized: true,
+    unoptimized: false,
+    minimumCacheTTL: 60,
   },
 };
 
