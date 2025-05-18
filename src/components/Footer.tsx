@@ -89,7 +89,7 @@ export default function Footer() {
           `}>
             {/* Logo */}
             <div className={`
-              w-[100px] text-center order-1 self-end pb-[5px]
+              w-[100px] text-center order-1 self-end pb-[6px]
               md:w-[120px] md:order-2 md:pb-[4px]
             `}>
               <div className="flex justify-center">
