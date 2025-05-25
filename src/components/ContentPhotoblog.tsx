@@ -65,7 +65,7 @@ export default function ContentPhotoblog({ onClose, title }: ContentPhotoblogPro
     },
     {
       type: 'image' as const,
-      src: '/photoblog/16_03_15_costa_rica.jpg',
+      src: '/photoblog/16_03_15_costa_rica.JPG',
       alt: 'Costa Rica',
       date: 'March 15, 2016'
     },
