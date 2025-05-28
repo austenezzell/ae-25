@@ -99,6 +99,7 @@ export default function FooterContent() {
           <div className="w-[100px]">
             <ul className={`${common.flex} font-serif italic`}>
               <li><Link href="/design" className={`${common.hover} ${common.opacity}`}>Design</Link></li>
+              <li><Link href="/tools" className={`${common.hover} ${common.opacity}`}>Tools</Link></li>
               <li><Link href="/photoblog" className={`${common.hover} ${common.opacity}`}>Photo Blog</Link></li>
               <li>
                 <button
@@ -114,6 +115,7 @@ export default function FooterContent() {
           <div className="w-[100px]">
             <ul className={`${common.flex} font-serif italic`}>
               <li><Link href="mailto:austenezzell@gmail.com" className={`${common.hover} ${common.opacity}`}>Email</Link></li>
+              <li><Link href="https://github.com/austenezzell" className={`${common.hover} ${common.opacity}`}>GitHub</Link></li>
               <li><Link href="https://www.are.na/austen-ezzell/" className={`${common.hover} ${common.opacity}`}>Are.na</Link></li>
               <li><Link href="https://www.linkedin.com/in/austenezzell/" className={`${common.hover} ${common.opacity}`}>LinkedIn</Link></li>
             </ul>
@@ -127,7 +129,7 @@ export default function FooterContent() {
         md:hidden
       `}>
         <p className="text-sm mb-2 opacity-65">
-          &ldquo;{currentQuote.text}&rdquo;<span className='nowrap'> — {currentQuote.author}</span>
+          &ldquo;{currentQuote.text}&rdquo;<span className='whitespace-nowrap'> — {currentQuote.author}</span>
         </p>
         <button 
           onClick={handleNextQuote}
@@ -145,7 +147,7 @@ export default function FooterContent() {
         {/* Quote Section */}
         <div className="w-[400px]">
           <p className="text-sm mb-2 opacity-65">
-            &ldquo;{currentQuote.text}&rdquo;<span className='nowrap'> — {currentQuote.author}</span>
+            &ldquo;{currentQuote.text}&rdquo;<span className='whitespace-nowrap'> — {currentQuote.author}</span>
           </p>
           <button 
             onClick={handleNextQuote}
@@ -183,6 +185,7 @@ export default function FooterContent() {
           <div>
             <ul className={`${common.flex} font-serif italic`}>
               <li><Link href="/design" className={`${common.hover} ${common.opacity}`}>Design</Link></li>
+              <li><Link href="/tools" className={`${common.hover} ${common.opacity}`}>Tools</Link></li>
               <li><Link href="/photoblog" className={`${common.hover} ${common.opacity}`}>Photo Blog</Link></li>
               <li>
                 <button
@@ -198,6 +201,7 @@ export default function FooterContent() {
           <div>
             <ul className={`${common.flex} font-serif italic`}>
               <li><Link href="mailto:austenezzell@gmail.com" className={`${common.hover} ${common.opacity}`}>Email</Link></li>
+              <li><Link href="https://github.com/austenezzell" className={`${common.hover} ${common.opacity}`}>GitHub</Link></li>
               <li><Link href="https://www.are.na/austen-ezzell/" className={`${common.hover} ${common.opacity}`}>Are.na</Link></li>
               <li><Link href="https://www.linkedin.com/in/austenezzell/" className={`${common.hover} ${common.opacity}`}>LinkedIn</Link></li>
             </ul>

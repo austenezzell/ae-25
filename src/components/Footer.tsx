@@ -70,7 +70,7 @@ export default function Footer() {
   return (
     <>
       <footer className={`
-        w-full py-8 px-6
+        w-full py-6 px-6
         flex flex-col justify-between items-end gap-8
         md:px-8 md:flex-row md:gap-12
       `}>
@@ -89,8 +89,8 @@ export default function Footer() {
           `}>
             {/* Logo */}
             <div className={`
-              w-[100px] text-center order-1 self-end pb-[6px]
-              md:w-[120px] md:order-2 md:pb-[4px]
+              w-[160px] text-center order-1 self-end pb-[6px]
+              md:w-[150px] md:order-2 md:pb-[4px]
             `}>
               <div className="flex justify-center">
                 <Link href="/" className={`${common.opacity}`}>
@@ -101,7 +101,7 @@ export default function Footer() {
                     height={60}
                     priority
                     className={`
-                      h-auto w-[110px]
+                      h-auto w-[160px]
                       text-black ${common.hover}
                     `}
                   />
@@ -123,6 +123,7 @@ export default function Footer() {
               `}>
                 <ul className={`${common.flex} font-serif italic`}>
                   <li><Link href="/design" className={`${common.hover} ${common.opacity}`}>Design</Link></li>
+                  <li><Link href="/tools" className={`${common.hover} ${common.opacity}`}>Tools</Link></li>
                   <li><Link href="/photoblog" className={`${common.hover} ${common.opacity}`}>Photo Blog</Link></li>
                   <li>
                     <button
@@ -141,6 +142,7 @@ export default function Footer() {
               `}>
                 <ul className={`${common.flex} font-serif italic`}>
                   <li><Link href="mailto:austenezzell@gmail.com" className={`${common.hover} ${common.opacity}`}>Email</Link></li>
+                  <li><Link href="https://github.com/austenezzell" className={`${common.hover} ${common.opacity}`}>GitHub</Link></li>
                   <li><Link href="https://www.are.na/austen-ezzell/" className={`${common.hover} ${common.opacity}`}>Are.na</Link></li>
                   <li><Link href="https://www.linkedin.com/in/austenezzell/" className={`${common.hover} ${common.opacity}`}>LinkedIn</Link></li>
                 </ul>
@@ -150,12 +152,12 @@ export default function Footer() {
 
           {/* Quote Section */}
           <div className={`
-            w-full max-w-[500px] text-center order-3
+            w-full max-w-[400px] md:max-w-[240px] text-center order-3
             self-end mx-auto flex flex-col justify-end
-            md:w-[400px] md:order-1 md:px-0
+            md:order-1 md:px-0
           `}>
             <p className="text-sm mb-2 opacity-65">
-              &ldquo;{currentQuote.text}&rdquo;<span className='nowrap'> — {currentQuote.author}</span>
+              &ldquo;{currentQuote.text}&rdquo;<span className='whitespace-nowrap'> — {currentQuote.author}</span>
             </p>
             <button 
               onClick={handleNextQuote}
