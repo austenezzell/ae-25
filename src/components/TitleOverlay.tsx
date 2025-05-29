@@ -37,7 +37,7 @@ export default function TitleOverlay() {
 
   return (
     <div 
-      className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-500 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-500 pointer-events-none ${
         isClosing ? 'opacity-0' : 'opacity-100'
       }`}
     >

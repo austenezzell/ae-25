@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { ExternalLink } from 'lucide-react';
 
 interface Tool {
@@ -64,11 +63,11 @@ export default function ToolsContent() {
     : tools.filter(tool => tool.categories.includes(activeFilter));
 
   return (
-    <div className="w-full max-w-[600px] mx-auto">
+    <div className="w-full max-w-[700px] mx-auto">
       {/* Sub header */}
       <div className="text-center mb-8">
         <h2 className="text-lg font-serif italic mb-4">
-            While no tool can replace clear communication, curiosity, or grit, a few have helped us get there faster.
+            While no tool can replace clear communication, curiosity, or grit, a few have helped us move things along faster.
         </h2>
       </div>
 
@@ -107,30 +106,6 @@ export default function ToolsContent() {
             <div className="flex flex-col items-center text-center">
               {/* Title with inline thumbnail */}
               <div className="flex items-center gap-3 mb-3">
-                {/* Thumbnail */}
-                <div className="flex-shrink-0 hidden md:block">
-                  <div className="w-8 h-8 rounded-xl overflow-hidden bg-gray-200 flex items-center justify-center border border-black">
-                    <Image
-                      src={tool.thumbnail}
-                      alt={tool.title}
-                      width={80}
-                      height={80}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        // Hide the image and show fallback
-                        e.currentTarget.style.display = 'none';
-                        const parent = e.currentTarget.parentElement;
-                        if (parent && !parent.querySelector('.fallback-icon')) {
-                          const fallback = document.createElement('div');
-                          fallback.className = 'fallback-icon w-8 h-8 bg-black/20 rounded-lg flex items-center justify-center';
-                          fallback.innerHTML = '<span class="text-black/60 text-sm font-medium">🔧</span>';
-                          parent.appendChild(fallback);
-                        }
-                      }}
-                    />
-                  </div>
-                </div>
-                
                 {/* Title */}
                 <h3 className="text-lg font-medium text-black">
                   {tool.title}
@@ -139,8 +114,8 @@ export default function ToolsContent() {
               
               {/* Content */}
               <div className="flex-1 min-w-0">
-                <div className="mb-3">
-                  <p className="text-sm text-gray-700 leading-relaxed">
+                <div className="mb-8">
+                  <p className="text-sm text-black leading-relaxed">
                     {tool.description}
                   </p>
                 </div>
