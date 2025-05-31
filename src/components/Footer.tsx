@@ -81,7 +81,7 @@ export default function Footer() {
         `}>
           {/* Top row with three columns on mobile */}
           <div className={`
-            flex flex-row justify-between items-center gap-4
+            flex flex-row justify-between items-center gap-2 md:gap-4
             w-auto
             max-w-[500px]
             mx-auto
@@ -89,7 +89,7 @@ export default function Footer() {
           `}>
             {/* Logo */}
             <div className={`
-              w-[160px] text-center order-1 self-end pb-[6px]
+              w-[100px] min-[400px]:w-[150px] text-center order-1 self-end pb-[6px]
               md:w-[150px] md:order-2 md:pb-[4px]
             `}>
               <div className="flex justify-center">
