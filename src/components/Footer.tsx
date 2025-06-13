@@ -46,6 +46,10 @@ const quotes = [
   {
     text: "Just make something fancy that is'nt a lot of work",
     author: "Brian Peterson"
+  },
+  {
+    text: "I would have written a shorter letter, but I did not have the time.",
+    author: "Mark Twain"
   }
 ];
 
