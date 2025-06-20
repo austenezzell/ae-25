@@ -50,6 +50,10 @@ const quotes = [
   {
     text: "I would have written a shorter letter, but I did not have the time.",
     author: "Mark Twain"
+  },
+  {
+    text: "Creativity is not a talent, it is a way of operating",
+    author: "John Cleese"
   }
 ];
 
