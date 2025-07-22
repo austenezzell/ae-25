@@ -53,6 +53,10 @@ const quotes = [
   {
     text: "Creativity is not a talent, it is a way of operating",
     author: "John Cleese"
+  },
+  {
+    text: "Knowledge speaks, but wisdom listens.",
+    author: "Jimi Hendrix"
   }
 ];
 
